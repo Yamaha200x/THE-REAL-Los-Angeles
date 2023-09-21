@@ -7,11 +7,11 @@
     <style>
         body {
           color: #ad0000;
-          background-color: #ad0000; /* Hintergrundfarbe entfernen */
-          background-image: url("https://media.discordapp.net/attachments/1101426227602010184/1143469908445900800/Sternenhimmel.png?width=916&height=687"); /* URL des Bilds einfügen */
-          background-size: cover; /* Bildgröße anpassen */
-          background-repeat: no-repeat; /* Bildwiederholung deaktivieren */
-          background-position: center; /* Bildposition zentrieren */
+          background-color: #ad0000;
+          background-image: url("https://media.discordapp.net/attachments/1101426227602010184/1143469908445900800/Sternenhimmel.png?width=916&height=687");
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -32,12 +32,12 @@
         }
 
         button {
-          padding: 10px 20px; /* Höhe der Buttons erhöht */
+          padding: 10px 20px;
           font-size: 16px;
           background-color: #EB0000;
           color: #000000;
           border: none;
-          border-radius: 5px; /* Runde Ecken hinzugefügt */
+          border-radius: 5px;
           margin: 10px;
           cursor: pointer;
           font-family: "Engravers MT", Arial, sans-serif;
@@ -46,7 +46,7 @@
         }
 
         button:hover {
-            background-color: #8B0000; /* Dunkelrot in Hexadezimal (#8B0000) */
+            background-color: #8B0000;
         }
 
         @keyframes zoomIn {
@@ -60,15 +60,23 @@
 
         #logo {
           position: absolute;
-          top: 20px; /* Ändere den Abstand zum oberen Rand nach Bedarf */
-          right: 20px; /* Ändere den Abstand zum rechten Rand nach Bedarf */
-          width: 100px; /* Ändere die Breite des Logos nach Bedarf */
-          height: auto; /* Damit das Seitenverhältnis erhalten bleibt */
+          top: 20px;
+          right: 20px;
+          width: 100px;
+          height: auto;
+        }
+
+        #logo-link {
+          text-decoration: none;
         }
         
     </style>
 </head>
 <body>
+    <a id="logo-link" href="menu.html">
+        <img id="logo" src="https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png" alt="Logo" />
+    </a>
+
     <div class="container">
         <button onclick="window.location.href='announcement.html'">Button 1</button>
         <button onclick="window.location.href='seite2.html'">Button 2</button>
@@ -76,8 +84,5 @@
         <button onclick="window.location.href='seite4.html'">Button 4</button>
         <button onclick="window.location.href='seite5.html'">Button 5</button>
     </div>
-
-    <img id="logo" src="https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png" alt="Logo" />
-    
 </body>
 </html>
