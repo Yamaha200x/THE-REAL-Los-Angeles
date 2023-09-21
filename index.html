@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcement sender</title>
+  <style>
+    body {
+      color: #ad0000;
+      background-color: #ad0000; /* Hintergrundfarbe entfernen */
+      background-image: url("https://media.discordapp.net/attachments/1101426227602010184/1143469908445900800/Sternenhimmel.png?width=916&height=687"); /* URL des Bilds einfügen */
+      background-size: cover; /* Bildgröße anpassen */
+      background-repeat: no-repeat; /* Bildwiederholung deaktivieren */
+      background-position: center; /* Bildposition zentrieren */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: "Engravers MT", Arial, sans-serif;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      text-decoration: underline;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      width: 80%;
+      max-width: 400px;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 5px;
+      font-size: 16px;
+      color: #EB0000;
+      background-color: #000000;
+      border: 1px solid #272727;
+      box-shadow: 0 8px 16px rgb(158, 0, 0);
+      outline: 1px solid #EB0000;
+    }
+
+    select {
+      width: 125%;
+      text-align: center; /* Zentrierte Ausrichtung des Texts im Dropdown-Menü */
+      font-family: "Engravers MT", Arial, sans-serif;
+      color: #EB0000;
+      background-color: #000000;
+      border: 1px solid #272727;
+      box-shadow: 0 8px 16px rgb(158, 0, 0);
+      outline: 1px solid #EB0000;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px; /* Margin nach oben erhöht */
+    }
+
+    button {
+      padding: 10px 20px; /* Höhe der Buttons erhöht */
+      font-size: 16px;
+      background-color: #EB0000;
+      color: #000000;
+      border: none;
+      border-radius: 5px; /* Runde Ecken hinzugefügt */
+      cursor: pointer;
+      font-family: "Engravers MT", Arial, sans-serif;
+      box-shadow: 0 8px 16px rgb(158, 0, 0);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(49, 49, 49, 0.664);
+    }
+
+    .modal-content {
+      color: rgb(173, 0, 0);
+      background-color: transparent; /* Hintergrundfarbe entfernen */
+      background-image: url("https://media.discordapp.net/attachments/1101426227602010184/1143469908445900800/Sternenhimmel.png?width=916&height=687"); /* URL des Bilds einfügen */
+      background-size: cover; /* Bildgröße anpassen */
+      background-repeat: no-repeat; /* Bildwiederholung deaktivieren */
+      background-position: center; /* Bildposition zentrieren */
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #272727;
+      width: 80%;
+      text-align: center;
+      box-shadow: 0 8px 16px rgb(158, 0, 0);
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: rgb(30, 255, 0);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .fields-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px; /* Größerer Abstand zwischen den Feldern */
+      width: 80%;
+      max-width: 400px;
+      margin-bottom: 10px;
+    }
+
+    .fields-container label {
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 5px;
+      gap: 5px; /* Größerer Abstand zwischen den Feldern */
+      width: 100%; /* Zentriert den Text */
+    }
+
+    .fields-container input[type="text"],
+    .fields-container input[type="url"],
+    .fields-container textarea,
+    .fields-container select {
+      width: 100%;
+      padding: 5px;
+      font-size: 16px;
+      color: #EB0000;
+      background-color: #000000;
+      border: 1px solid #272727;
+      box-shadow: 0 8px 16px rgb(158, 0, 0);
+      outline: 1px solid #EB0000;
+      resize: vertical;
+    }
+
+    .fields-container .remove-field-button {
+      background-color: #EB0000;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: "Engravers MT", Arial, sans-serif;
+      width: fit-content;
+      padding: 2px 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .embed-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      text-align: center;
+    }
+
+    #logo {
+      position: absolute;
+      top: 20px; /* Ändere den Abstand zum oberen Rand nach Bedarf */
+      right: 20px; /* Ändere den Abstand zum rechten Rand nach Bedarf */
+      width: 100px; /* Ändere die Breite des Logos nach Bedarf */
+      height: auto; /* Damit das Seitenverhältnis erhalten bleibt */
+    }
+    
+  </style>
+</head>
+<body>
+  <h1>Announcement sender</h1>
+
+  <form id="dataForm">
+    <label for="selectModule">Wähle ein Modul:</label>
+    <select id="selectModule">
+      <option value="ankuendigungrps">Ankündigung RP Server</option>
+      <option value="changelogrps">Changelog RP Server</option>
+      <option value="eventsrps">Events RP Server</option>
+      <option value="serverstatusrps">Server Status RP Server</option>
+      <option value="umfragenrps">Umfragen RP Server</option>
+      <option value="spoilerrps">Spoiler RP Server</option>
+      <option value="teaminfosrps">Team Infos RP Server</option>
+      <option value="frakinfosrps">Fraktion Infos RP Server</option>
+      <option value="fraklisterps">Fraktionen Liste RP Server</option>
+      <option value="ankuendigungel">Ankündigung Entwickler Lounge</option>
+      <option value="eventsrl">Events Entwickler Lounge</option>
+    </select>
+    
+    <label for="title">Title:</label>
+    <input type="text" id="title" required maxlength="256">
+    <span id="titleCounter" style="color: #EB0000;"><span id="usedTitleCharacters">0</span> / <span id="maxTitleCharacters">256</span></span><br>
+
+    <label for="description">Description:</label>
+    <textarea id="description" required maxlength="4096"></textarea>
+    <span id="descriptionCounter" style="color: #EB0000;"><span id="usedDescriptionCharacters">0</span> / <span id="maxDescriptionCharacters">4096</span></span><br>
+    
+    <label for="url">URL:</label>
+    <input type="url" id="url" required><br>
+    
+    <label for="imageUrls">Image URLs:</label>
+    <input type="text" id="imageUrls" required><br>
+    
+    <label for="fields">Embed Fields:</label>
+      <div id="fieldsContainer" class="fields-container">
+        <!-- Hier werden die Embed-Felder hinzugefügt -->
+      </div>
+
+      <button type="button" id="addFieldButton">Embed-Feld hinzufügen</button>
+      <div class="button-group">
+        <button type="button" id="sendButton">Senden</button>
+        <button type="button" id="clearButton">Löschen</button>
+      </div>
+  </form>
+
+  <div id="customModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="customModalTitle"></h2>
+      <p id="customModalMessage"></p>
+    </div>
+  </div>
+
+  <img id="logo" src="https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png" alt="Logo" />
+
+  <script>
+const titleInput = document.getElementById("title");
+const usedTitleCharacters = document.getElementById("usedTitleCharacters");
+const maxTitleCharacters = document.getElementById("maxTitleCharacters");
+titleInput.addEventListener("input", updateTitleCounter);
+
+const descriptionInput = document.getElementById("description");
+const usedDescriptionCharacters = document.getElementById("usedDescriptionCharacters");
+const maxDescriptionCharacters = document.getElementById("maxDescriptionCharacters");
+descriptionInput.addEventListener("input", updateDescriptionCounter);
+
+const sendButton = document.getElementById("sendButton");
+const clearButton = document.getElementById("clearButton");
+
+sendButton.addEventListener("click", sendData);
+clearButton.addEventListener("click", clearFields);
+
+function updateTitleCounter() {
+  const inputLength = titleInput.value.length;
+  usedTitleCharacters.textContent = inputLength;
+  if (inputLength > 256) {
+    usedTitleCharacters.style.color = "#EB0000";
+  } else {
+    usedTitleCharacters.style.color = "#EB0000";
+  }
+}
+
+function updateDescriptionCounter() {
+  const inputLength = descriptionInput.value.length;
+  usedDescriptionCharacters.textContent = inputLength;
+  if (inputLength > 4096) {
+    usedDescriptionCharacters.style.color = "#EB0000";
+  } else {
+    usedDescriptionCharacters.style.color = "#EB0000";
+  }
+}
+
+function showError(title, message) {
+  const modal = document.getElementById("customModal");
+  const modalTitle = document.getElementById("customModalTitle");
+  const modalMessage = document.getElementById("customModalMessage");
+  
+  modalTitle.textContent = title;
+  modalMessage.textContent = message;
+  modal.style.display = "block";
+}
+
+// Schließe das benutzerdefinierte Modalfenster
+const modal = document.getElementById("customModal");
+const closeBtn = modal.querySelector(".close");
+closeBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+const fieldsContainer = document.getElementById("fieldsContainer");
+const addFieldButton = document.getElementById("addFieldButton");
+
+let fieldCount = 0;
+
+addFieldButton.addEventListener("click", addEmbedField);
+
+function addEmbedField() {
+    const fieldId = `field_${fieldCount}`;
+    fieldCount++;
+
+    const fieldContainer = document.createElement("div");
+    fieldContainer.classList.add("embed-field");
+    fieldContainer.innerHTML = `
+      <label for="${fieldId}_title">Feldtitel:</label>
+      <input type="text" id="${fieldId}_title" required maxlength="256">
+      <span id="${fieldId}_titleCounter" style="color: #EB0000;">0 / 256</span><br>
+
+      <label for="${fieldId}_value">Feldinhalt:</label>
+      <textarea id="${fieldId}_value" required maxlength="4096"></textarea>
+      <span id="${fieldId}_valueCounter" style="color: #EB0000;">0 / 4096</span><br>
+
+      <button type="button" class="remove-field-button">🗑️</button>
+    `;
+
+    const removeFieldButton = fieldContainer.querySelector(".remove-field-button");
+    removeFieldButton.addEventListener("click", () => {
+      fieldsContainer.removeChild(fieldContainer);
+    });
+
+    const titleInput = fieldContainer.querySelector(`#${fieldId}_title`);
+    const titleCounter = fieldContainer.querySelector(`#${fieldId}_titleCounter`);
+    titleInput.addEventListener("input", () => updateCounter(titleInput, titleCounter, 256));
+
+    const valueInput = fieldContainer.querySelector(`#${fieldId}_value`);
+    const valueCounter = fieldContainer.querySelector(`#${fieldId}_valueCounter`);
+    valueInput.addEventListener("input", () => updateCounter(valueInput, valueCounter, 4096));
+
+    fieldsContainer.appendChild(fieldContainer);
+  }
+
+  function updateCounter(inputElement, counterElement, maxLength) {
+    const inputLength = inputElement.value.length;
+    counterElement.textContent = `${inputLength} / ${maxLength}`;
+
+    if (inputLength > maxLength) {
+      counterElement.style.color = "red";
+      inputElement.value = inputElement.value.substring(0, maxLength);
+    } else {
+      counterElement.style.color = "#EB0000";
+    }
+  }
+
+
+    function getEmbedFields(fieldContainer) {
+      const embedFields = [];
+
+      const embedFieldElements = fieldContainer.querySelectorAll(".embed-field");
+      embedFieldElements.forEach(fieldElement => {
+        const fieldNameInput = fieldElement.querySelector("input[id$='_title']");
+        const fieldValueInput = fieldElement.querySelector("textarea[id$='_value']");
+
+        const fieldName = fieldNameInput.value;
+        const fieldValue = fieldValueInput.value;
+
+        if (fieldName.trim() !== "" && fieldValue.trim() !== "") {
+          embedFields.push({
+            name: fieldName,
+            value: fieldValue
+          });
+        }
+      });
+
+      return embedFields;
+    }
+
+function sendData() {
+  const selectedModule = document.getElementById("selectModule").value;
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+  const url = document.getElementById("url").value;
+  const imageUrls = document.getElementById("imageUrls").value;
+
+  if (title.trim() === "") {
+    showError("Titel fehlt", "Bitte geben Sie einen Titel ein!");
+    return;
+  }
+
+  if (description.trim() === "") {
+    showError("Beschreibung fehlt", "Bitte geben Sie eine Beschreibung ein!");
+    return;
+  }
+
+  const webhookUrl = getWebhookUrl(selectedModule);
+
+  const embedFieldsContainer = document.getElementById("fieldsContainer");
+  const embedFields = getEmbedFields(embedFieldsContainer); // Holen der hinzugefügten Embed-Felder
+
+
+  const embedData = {
+    title: title,
+    description: description,
+    url: url,
+    image: {
+      url: imageUrls
+    },
+    fields: embedFields, // Füge die hinzugefügten Embed-Felder hinzu
+    thumbnail: {
+      url: "https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png"
+    },
+    color: 0xEB0000,
+    author: {
+      name: "Interne IT",
+      icon_url: "https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png"
+    },
+    footer: {
+      text: "Mit freundlichen Grüßen",
+      icon_url: "https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png"
+    },
+    timestamp: new Date()
+  };
+
+  const payload = {
+    embeds: [embedData]
+  };
+
+  fetch(webhookUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => response.json())
+  .then(responseData => {
+    console.log("Response:", responseData);
+    clearFields();
+  })
+  .catch(error => {
+    console.error("Error:", error);
+  });
+}
+
+    function clearFields() {
+      const fieldsToClear = ["title", "description", "url", "imageUrls"];
+      fieldsToClear.forEach(field => {
+        document.getElementById(field).value = "";
+      });
+    }
+
+    function getWebhookUrl(module) {
+      // Replace with your actual webhook URLs
+      const webhookUrls = {
+        ankuendigungrps: "https://discord.com/api/webhooks/1143164374123544636/gVR6m0f8b6j3flw5GQXCfPyjzNVhrw-TxwboAX9nOjW5jMdU9LYcrA0f6qERKW_gPnRM",
+        changelogrps: "https://discord.com/api/webhooks/1143166981214838794/XKcI5eyW9iRkZ10iJL1KWpkR_P3P7OFGoatVbosrstsY1bVzGkCX2YhSZIkrUSgTYanc",
+        eventsrps: "https://discord.com/api/webhooks/1144215279145074701/DlBY_qu1CqCS6ZxLbvNefVpkv2mlI8SgNIpQmPeQa50-m0vUbOwysjrWj3YFiT0XY0t_",
+        serverstatusrps: "https://discord.com/api/webhooks/1144222368911339550/gbeNHNqNH1M7HDD7WDSeaXC0xWu2fYiiFIkOHU7dncozcJjkS8M8jFR50q8P1kfdQGjR",
+        umfragenrps: "https://discord.com/api/webhooks/1144224961427411024/Q0u7-UPbZVovpUGk-EmUdHWTUJWdf5Fm05Kj4PLAbAKg1an7r4GU2Hvrzd7U2F-tbJip",
+        spoilerrps: "https://discord.com/api/webhooks/1144225534545506324/EiBQyCpWdGlin2mlClcStrOnYgUHj6LYDFu3tnXgTbZJji6F9Hu2Yv8LUwrB66gyNW-u",
+        teaminfosrps: "https://discord.com/api/webhooks/1144238075313127495/4Rvgvp8uUbe5nJKOkblzwOa6-G5eozphPqX5VlEphe67-NzfhiJbY_J8niPICQ5tseyN",
+        frakinfosrps: "https://discord.com/api/webhooks/1144226708644442122/39LaX6K9EDlMRyToY4i13DRbZjl18vxUvE1IBb5gz7x1XkprXNrCGm40VR-2J-fzHKX4",
+        fraklisterps: "https://discord.com/api/webhooks/1144227274846113895/_XPzpSHlsnmBh3_l_MB9PY_DUoVdbj65AA8iGUYSBEsHkTMMdGbgqUTHwczanprOp7NM",
+        //Entwickler Lounge\\
+        ankuendigungel: "https://discord.com/api/webhooks/1144233923178659857/fPFjVXZS_oCUG6YIyKRA9_sFLrHXYOoK51pcSk6rNuHXA7C_DNMXATYiSHV1rmRmAfYH",
+        eventsrl: "https://discord.com/api/webhooks/1144234255573065728/ZH_Zh_8gz1DFcNqjFDsJIW5NMP1bMrk7GnNUWn7cJezyoVmy4FZDshYzi2sjmFgCXYvS",
+      };
+      return webhookUrls[module];
+    }
+  </script>
+</body>
+</html>
