@@ -77,6 +77,13 @@
         <img id="logo" src="https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png" alt="Logo" />
     </a>
 
+    <!-- Discord Icon and Status -->
+    <div class="discord-status">
+        <img class="discord-icon" src="https://your-discord-icon-url.png" alt="Discord Icon" />
+        <div class="status-circle" id="status-circle"></div>
+        <p id="status-text"></p>
+    </div>
+
     <div class="container">
         <button onclick="window.location.href='announcement.html'">Ankündigungen</button>
         <button onclick="window.location.href='console.html'">Button 2</button>
@@ -84,5 +91,29 @@
         <button onclick="window.location.href='seite4.html'">Button 4</button>
         <button onclick="window.location.href='seite5.html'">Button 5</button>
     </div>
+
+    <script>
+        // JavaScript, um den Discord-Status abzurufen und anzuzeigen
+        fetch('https://srhpyqt94yxb.statuspage.io/api/v2/status.json')
+            .then(response => response.json())
+            .then(data => {
+                const statusCircle = document.getElementById('status-circle');
+                const statusText = document.getElementById('status-text');
+
+                if (data.status.indicator === 'none') {
+                    statusCircle.style.backgroundColor = 'green';
+                    statusText.innerText = 'Online';
+                } else if (data.status.indicator === 'minor') {
+                    statusCircle.style.backgroundColor = 'orange';
+                    statusText.innerText = 'Eingeschränkt';
+                } else if (data.status.indicator === 'major') {
+                    statusCircle.style.backgroundColor = 'red';
+                    statusText.innerText = 'Offline';
+                }
+            })
+            .catch(error => {
+                console.error('Fehler beim Abrufen des Discord-Status:', error);
+            });
+    </script>
 </body>
 </html>
