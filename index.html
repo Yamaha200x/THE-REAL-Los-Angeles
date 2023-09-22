@@ -73,6 +73,7 @@
     </style>
 </head>
 <body>
+<body>
     <a id="logo-link" href="index.html">
         <img id="logo" src="https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png" alt="Logo" />
     </a>
@@ -110,6 +111,13 @@
                     statusCircle.style.backgroundColor = 'red';
                     statusText.innerText = 'Offline';
                 }
+
+                // Füge den Farbpunkt neben dem Discord-Icon hinzu
+                const discordIcon = document.querySelector('.discord-icon');
+                const statusDot = document.createElement('div');
+                statusDot.className = 'status-dot';
+                statusDot.style.backgroundColor = statusCircle.style.backgroundColor;
+                discordIcon.parentNode.insertBefore(statusDot, discordIcon.nextSibling);
             })
             .catch(error => {
                 console.error('Fehler beim Abrufen des Discord-Status:', error);
