@@ -84,11 +84,36 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
+            border: 2px solid #ad0000;
         }
 
+        .status-circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 5px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border: 2px solid #ad0000;
+        }
+
+        .status-green {
+            background-color: green;
+        }
+
+        .status-red {
+            background-color: red;
+        }
+
+        .status-orange {
+            background-color: orange;
+        }
+
+        /* Neuer CSS-Code für das FiveM-Icon und den Statuspunkt */
         .fivem-status-container {
             position: fixed;
-            top: 80px;
+            top: 70px; /* Abstand unter dem Discord-Status */
             left: 20px;
             display: flex;
             align-items: center;
@@ -99,9 +124,10 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
+            border: 2px solid #ad0000;
         }
 
-        .dicord-status-dot {
+        #fivem-status-circle {
             width: 10px;
             height: 10px;
             border-radius: 50%;
@@ -109,16 +135,7 @@
             position: absolute;
             bottom: 0;
             right: 0;
-        }
-
-        .fivem-status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-left: 5px;
-            position: absolute;
-            bottom: 0;
-            right: 0;
+            border: 2px solid #ad0000;
         }
 
         .status-green {
@@ -139,17 +156,6 @@
         <img id="logo" src="https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png" alt="Logo" />
     </a>
 
-    <!-- Discord Icon und Statuspunkt -->
-    <div class="discord-status-container">
-        <img class="discord-icon" src="https://media.discordapp.net/attachments/901747534609936387/1154720151141371945/IMG_2770.png" alt="Discord Icon" />
-        <div class="dicord-status-circle" id="dicord-status-circle"></div>
-    </div>
-           <!-- Hinzugefügter FiveM-Status -->
-    <div class="fivem-status-container">
-        <img class="fivem-icon" src="https://media.discordapp.net/attachments/901747534609936387/1154732451088842782/IMG_2774.png" alt="FiveM Icon" />
-        <div class="fivem-status-circle" id="fivem-status-circle"></div>
-    </div>
-
     <div class="container">
         <button onclick="window.location.href='announcement.html'">Ankündigungen</button>
         <button onclick="window.location.href='console.html'">Button 2</button>
@@ -157,51 +163,62 @@
         <button onclick="window.location.href='seite4.html'">Button 4</button>
         <button onclick="window.location.href='seite5.html'">Button 5</button>
     </div>
-
+    
+    <!-- Discord Icon und Statuspunkt -->
+    <div class="discord-status-container">
+        <img class="discord-icon" src="https://media.discordapp.net/attachments/901747534609936387/1154720151141371945/IMG_2770.png" alt="Discord Icon" />
+        <div class="status-circle" id="discord-status-circle"></div>
+    </div>
+    
+    <!-- FiveM-Status -->
+    <div class="fivem-status-container">
+        <img class="fivem-icon" src="https://media.discordapp.net/attachments/901747534609936387/1154732451088842782/IMG_2774.png" alt="FiveM Icon" />
+        <div class="status-circle" id="fivem-status-circle"></div>
+    </div>
+    
     <script>
         // JavaScript, um den Discord-Status abzurufen und den Statuspunkt hinzuzufügen
         fetch('https://srhpyqt94yxb.statuspage.io/api/v2/status.json')
             .then(response => response.json())
             .then(data => {
-                const statusCircle = document.getElementById('dicord-status-circle');
-
+                const discordStatusCircle = document.getElementById('discord-status-circle');
+    
                 if (data.status.indicator === 'none') {
-                    statusCircle.style.backgroundColor = '#6aff6a';
+                    discordStatusCircle.style.backgroundColor = '#6aff6a';
                 } else if (data.status.indicator === 'minor') {
-                    statusCircle.style.backgroundColor = 'orange';
+                    discordStatusCircle.style.backgroundColor = 'orange';
                 } else if (data.status.indicator === 'major') {
-                    statusCircle.style.backgroundColor = '#ff6a6a';
+                    discordStatusCircle.style.backgroundColor = '#ff6a6a';
                 }
-
+    
                 // Füge den Farbpunkt neben dem Discord-Icon hinzu
                 const discordIcon = document.querySelector('.discord-icon');
-                const statusDot = document.createElement('div');
-                statusDot.className = 'dicord-status-dot';
-                statusDot.style.backgroundColor = dicord-statusCircle.style.backgroundColor;
-                discordIcon.parentNode.insertBefore(dicord-statusDot, discordIcon.nextSibling);
+                const discordStatusDot = document.createElement('div');
+                discordStatusDot.className = 'status-dot';
+                discordStatusDot.style.backgroundColor = discordStatusCircle.style.backgroundColor;
+                discordIcon.parentNode.insertBefore(discordStatusDot, discordIcon.nextSibling);
             })
             .catch(error => {
                 console.error('Fehler beim Abrufen des Discord-Status:', error);
             });
-    // JavaScript, um den FiveM-Status abzurufen und den Statuspunkt hinzuzufügen
-    fetch('https://status.cfx.re/')
-        .then(response => response.text())
-        .then(data => {
-            const fivemStatusCircle = document.getElementById('fivem-status-circle');
-
-            if (data.includes('All Systems Operational')) {
-                fivemStatusCircle.style.backgroundColor = '#6aff6a';
-            } else if (data.includes('Partial Service Disruption')) {
-                fivemStatusCircle.style.backgroundColor = 'orange';
-            } else {
-                fivemStatusCircle.style.backgroundColor = '#ff6a6a';
-            }
-        })
-        .catch(error => {
-            console.error('Fehler beim Abrufen des FiveM-Status:', error);
-        });
-</script>
-
+    
+        // JavaScript, um den FiveM-Status abzurufen und den Statuspunkt hinzuzufügen
+        fetch('https://status.cfx.re/')
+            .then(response => response.text())
+            .then(data => {
+                const fivemStatusCircle = document.getElementById('fivem-status-circle');
+    
+                if (data.includes('All Systems Operational')) {
+                    fivemStatusCircle.style.backgroundColor = '#6aff6a';
+                } else if (data.includes('Partial Service Disruption')) {
+                    fivemStatusCircle.style.backgroundColor = 'orange';
+                } else {
+                    fivemStatusCircle.style.backgroundColor = '#ff6a6a';
+                }
+            })
+            .catch(error => {
+                console.error('Fehler beim Abrufen des FiveM-Status:', error);
+            });
     </script>
 </body>
 </html>
