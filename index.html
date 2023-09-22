@@ -260,18 +260,18 @@
             });
 
             // JavaScript, um den Steam-Status abzurufen und den Statuspunkt hinzuzufügen
-        fetch('https://www.netzwelt.de/ist-down/55-steam.html')
+        fetch('https://steamstat.us/')
             .then(response => response.text())
             .then(data => {
                 const steamStatusCircle = document.getElementById('steam-status-circle');
 
                 // Überprüfe, ob bestimmte Texte auf der Seite vorhanden sind, um den Status zu interpretieren
-                if (data.includes('Derzeit keine Störungen bei Steam')) {
+                if (data.includes('All Systems Operational')) {
                     steamStatusCircle.style.backgroundColor = '#6aff6a';
-                } else if (data.includes('Es liegt eine Störung bei Steam vor')) {
-                    steamStatusCircle.style.backgroundColor = '#ff6a6a';
-                } else {
+                } else if (data.includes('Partial Service Disruption')) {
                     steamStatusCircle.style.backgroundColor = 'orange';
+                } else {
+                    steamStatusCircle.style.backgroundColor = '#ff6a6a';
                 }
             })
             .catch(error => {
