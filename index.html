@@ -303,24 +303,21 @@
             });
 
             // JavaScript, um den Steam-Status abzurufen und den Statuspunkt hinzuzufügen
-        fetch('https://steamstat.us/api/v1/server')
-            .then(response => response.json())
-            .then(data => {
-                const frankfurtServer = data.servers.find(server => server.region === 'Frankfurt');
+        fetch('https://api.steampowered.com/ISteamApps/UpToDateCheck/v1/?format=json&appid=440&version=0')
+        .then(response => response.json())
+        .then(data => {
+            const steamStatusCircle = document.getElementById('steam-status-circle');
 
-                if (frankfurtServer && frankfurtServer.online) {
-                    // Wenn Frankfurt-Server online ist
-                    const steamStatusCircle = document.getElementById('steam-status-circle');
-                    steamStatusCircle.style.backgroundColor = '#6aff6a';
-                } else {
-                    // Wenn Frankfurt-Server offline ist oder nicht gefunden wurde
-                    const steamStatusCircle = document.getElementById('steam-status-circle');
-                    steamStatusCircle.style.backgroundColor = '#ff6a6a';
-                }
-            })
-            .catch(error => {
-                console.error('Fehler beim Abrufen des Steam-Status:', error);
-            });
+            // Überprüfe, ob der Frankfurt-Server in der Antwort enthalten ist
+            if (data.response.up_to_date) {
+                steamStatusCircle.style.backgroundColor = '#6aff6a';
+            } else {
+                steamStatusCircle.style.backgroundColor = '#ff6a6a';
+            }
+        })
+        .catch(error => {
+            console.error('Fehler beim Abrufen des Steam-Status:', error);
+        });
 
              // JavaScript, um den Hosting-Status von https://status.ht-hosting.de/ abzurufen und den Statuspunkt hinzuzufügen
         fetch('https://status.ht-hosting.de/api/v1/server')
