@@ -303,17 +303,18 @@
             });
 
             // JavaScript, um den Steam-Status abzurufen und den Statuspunkt hinzuzufügen
-        fetch('https://steamstat.us/')
-            .then(response => response.text())
+        fetch('https://steamstat.us/api/v1/server')
+            .then(response => response.json())
             .then(data => {
-                const steamStatusCircle = document.getElementById('steam-status-circle');
+                const frankfurtServer = data.servers.find(server => server.region === 'Frankfurt');
 
-                // Überprüfe, ob bestimmte Texte auf der Seite vorhanden sind, um den Status zu interpretieren
-                if (data.includes('All Systems Operational')) {
+                if (frankfurtServer && frankfurtServer.online) {
+                    // Wenn Frankfurt-Server online ist
+                    const steamStatusCircle = document.getElementById('steam-status-circle');
                     steamStatusCircle.style.backgroundColor = '#6aff6a';
-                } else if (data.includes('Partial Service Disruption')) {
-                    steamStatusCircle.style.backgroundColor = 'orange';
                 } else {
+                    // Wenn Frankfurt-Server offline ist oder nicht gefunden wurde
+                    const steamStatusCircle = document.getElementById('steam-status-circle');
                     steamStatusCircle.style.backgroundColor = '#ff6a6a';
                 }
             })
