@@ -105,15 +105,14 @@
 </head>
 <body>
 <body>
-<a id="logo-link" href="index.html">
+    <a id="logo-link" href="index.html">
         <img id="logo" src="https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png" alt="Logo" />
     </a>
 
-    <!-- Discord Icon und Status -->
+    <!-- Discord Icon und Statuspunkt -->
     <div class="discord-status-container">
         <img class="discord-icon" src="https://your-discord-icon-url.png" alt="Discord Icon" />
         <div class="status-circle" id="status-circle"></div>
-        <p id="status-text"></p>
     </div>
 
     <div class="container">
@@ -125,22 +124,18 @@
     </div>
 
     <script>
-        // JavaScript, um den Discord-Status abzurufen und anzuzeigen
+        // JavaScript, um den Discord-Status abzurufen und den Statuspunkt hinzuzufügen
         fetch('https://srhpyqt94yxb.statuspage.io/api/v2/status.json')
             .then(response => response.json())
             .then(data => {
                 const statusCircle = document.getElementById('status-circle');
-                const statusText = document.getElementById('status-text');
 
                 if (data.status.indicator === 'none') {
                     statusCircle.style.backgroundColor = 'green';
-                    statusText.innerText = 'Online';
                 } else if (data.status.indicator === 'minor') {
                     statusCircle.style.backgroundColor = 'orange';
-                    statusText.innerText = 'Eingeschränkt';
                 } else if (data.status.indicator === 'major') {
                     statusCircle.style.backgroundColor = 'red';
-                    statusText.innerText = 'Offline';
                 }
 
                 // Füge den Farbpunkt neben dem Discord-Icon hinzu
