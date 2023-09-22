@@ -119,6 +119,11 @@
         <img class="discord-icon" src="https://media.discordapp.net/attachments/901747534609936387/1154720151141371945/IMG_2770.png" alt="Discord Icon" />
         <div class="status-circle" id="status-circle"></div>
     </div>
+           <!-- Hinzugefügter FiveM-Status -->
+    <div class="fivem-status-container">
+        <img class="fivem-icon" src="https://status.cfx.re/favicon.ico" alt="FiveM Icon" />
+        <div class="status-circle" id="fivem-status-circle"></div>
+    </div>
 
     <div class="container">
         <button onclick="window.location.href='announcement.html'">Ankündigungen</button>
@@ -153,6 +158,25 @@
             .catch(error => {
                 console.error('Fehler beim Abrufen des Discord-Status:', error);
             });
+    // JavaScript, um den FiveM-Status abzurufen und den Statuspunkt hinzuzufügen
+    fetch('https://status.cfx.re/')
+        .then(response => response.text())
+        .then(data => {
+            const fivemStatusCircle = document.getElementById('fivem-status-circle');
+
+            if (data.includes('All Systems Operational')) {
+                fivemStatusCircle.style.backgroundColor = '#6aff6a';
+            } else if (data.includes('Partial Service Disruption')) {
+                fivemStatusCircle.style.backgroundColor = 'orange';
+            } else {
+                fivemStatusCircle.style.backgroundColor = '#ff6a6a';
+            }
+        })
+        .catch(error => {
+            console.error('Fehler beim Abrufen des FiveM-Status:', error);
+        });
+</script>
+
     </script>
 </body>
 </html>
