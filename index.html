@@ -323,17 +323,18 @@
             });
 
              // JavaScript, um den Hosting-Status von https://status.ht-hosting.de/ abzurufen und den Statuspunkt hinzuzufügen
-        fetch('https://status.ht-hosting.de/')
-            .then(response => response.text())
+        fetch('https://status.ht-hosting.de/api/v1/server')
+            .then(response => response.json())
             .then(data => {
-                const hostingStatusCircle = document.getElementById('hosting-status-circle');
+                const frankfurtServer = data.servers.find(server => server.name === 'Dedicated Server Frankfurt');
 
-                // Überprüfe, ob bestimmte Texte auf der Seite vorhanden sind, um den Status zu interpretieren
-                if (data.includes('All Systems Operational')) {
+                if (frankfurtServer && frankfurtServer.status === 'online') {
+                    // Wenn der Dedicated Server in Frankfurt online ist
+                    const hostingStatusCircle = document.getElementById('hosting-status-circle');
                     hostingStatusCircle.style.backgroundColor = '#6aff6a';
-                } else if (data.includes('Partial Service Disruption')) {
-                    hostingStatusCircle.style.backgroundColor = 'orange';
                 } else {
+                    // Wenn der Dedicated Server in Frankfurt offline ist oder nicht gefunden wurde
+                    const hostingStatusCircle = document.getElementById('hosting-status-circle');
                     hostingStatusCircle.style.backgroundColor = '#ff6a6a';
                 }
             })
