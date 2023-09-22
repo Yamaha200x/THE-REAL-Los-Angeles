@@ -183,6 +183,44 @@
         .status-orange {
             background-color: orange;
         }
+
+        /* Neuer CSS-Code für das Hosting-Icon und den Statuspunkt */
+        .hosting-status-container {
+            position: fixed;
+            top: 200px; /* Abstand unter dem FiveM-Status */
+            left: 20px;
+            display: flex;
+            align-items: center;
+            border-radius: 50%;
+        }
+
+        .hosting-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        #hosting-status-circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 5px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        .status-green {
+            background-color: green;
+        }
+
+        .status-red {
+            background-color: red;
+        }
+
+        .status-orange {
+            background-color: orange;
+        }
     </style>
 </head>
 <body>
@@ -213,6 +251,11 @@
     <div class="steam-status-container">
         <img class="steam-icon" src="https://media.discordapp.net/attachments/901747534609936387/1154737924542300200/IMG_2776.png" alt="Steam Icon" />
         <div class="status-circle" id="steam-status-circle"></div>
+    </div>
+
+    <div class="hosting-status-container">
+        <img class="hosting-icon" src="https://media.discordapp.net/attachments/901747534609936387/1154745002287706172/14338163-9708-4E46-8D8E-13A337FD4A40.png.jpg" alt="Hosting Icon" />
+        <div class="status-circle" id="hosting-status-circle"></div>
     </div>
     
     <script>
@@ -276,6 +319,25 @@
             })
             .catch(error => {
                 console.error('Fehler beim Abrufen des Steam-Status:', error);
+            });
+
+             // JavaScript, um den Hosting-Status von https://status.ht-hosting.de/ abzurufen und den Statuspunkt hinzuzufügen
+        fetch('https://status.ht-hosting.de/')
+            .then(response => response.text())
+            .then(data => {
+                const hostingStatusCircle = document.getElementById('hosting-status-circle');
+
+                // Überprüfe, ob bestimmte Texte auf der Seite vorhanden sind, um den Status zu interpretieren
+                if (data.includes('All Systems Operational')) {
+                    hostingStatusCircle.style.backgroundColor = '#6aff6a';
+                } else if (data.includes('Partial Service Disruption')) {
+                    hostingStatusCircle.style.backgroundColor = 'orange';
+                } else {
+                    hostingStatusCircle.style.backgroundColor = '#ff6a6a';
+                }
+            })
+            .catch(error => {
+                console.error('Fehler beim Abrufen des Hosting-Status:', error);
             });
     </script>
 </body>
