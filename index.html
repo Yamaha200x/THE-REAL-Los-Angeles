@@ -145,6 +145,46 @@
         .status-orange {
             background-color: orange;
         }
+        
+        /* Neuer CSS-Code für das Steam-Icon und den Statuspunkt */
+        .steam-status-container {
+            position: fixed;
+            top: 120px; /* Abstand unter dem FiveM-Status */
+            left: 20px;
+            display: flex;
+            align-items: center;
+            border-radius: 50%;
+        }
+
+        .steam-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #ad0000;
+        }
+
+        #steam-status-circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 5px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border: 2px solid #ad0000;
+        }
+
+        .status-green {
+            background-color: green;
+        }
+
+        .status-red {
+            background-color: red;
+        }
+
+        .status-orange {
+            background-color: orange;
+        }
     </style>
 </head>
 <body>
@@ -170,6 +210,11 @@
     <div class="fivem-status-container">
         <img class="fivem-icon" src="https://media.discordapp.net/attachments/901747534609936387/1154732451088842782/IMG_2774.png" alt="FiveM Icon" />
         <div class="status-circle" id="fivem-status-circle"></div>
+    </div>
+
+    <div class="steam-status-container">
+        <img class="steam-icon" src="https://steamcommunity.com/favicon.ico" alt="Steam Icon" />
+        <div class="status-circle" id="steam-status-circle"></div>
     </div>
     
     <script>
@@ -214,6 +259,23 @@
             })
             .catch(error => {
                 console.error('Fehler beim Abrufen des FiveM-Status:', error);
+            });
+
+            // JavaScript, um den Steam-Status abzurufen und den Statuspunkt hinzuzufügen
+        fetch('https://store.steampowered.com/stats/content/', { mode: 'cors' })
+            .then(response => response.text())
+            .then(data => {
+                const steamStatusCircle = document.getElementById('steam-status-circle');
+
+                // Überprüfe, ob "Frankfurt" im Text vorkommt, um den Status zu interpretieren
+                if (data.includes('Frankfurt')) {
+                    steamStatusCircle.style.backgroundColor = '#6aff6a';
+                } else {
+                    steamStatusCircle.style.backgroundColor = '#ff6a6a';
+                }
+            })
+            .catch(error => {
+                console.error('Fehler beim Abrufen des Steam-Status:', error);
             });
     </script>
 </body>
