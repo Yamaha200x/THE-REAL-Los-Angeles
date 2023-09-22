@@ -101,7 +101,17 @@
             border-radius: 50%;
         }
 
-        .status-dot {
+        .dicord-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 5px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        .fivem-status-dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
@@ -132,12 +142,12 @@
     <!-- Discord Icon und Statuspunkt -->
     <div class="discord-status-container">
         <img class="discord-icon" src="https://media.discordapp.net/attachments/901747534609936387/1154720151141371945/IMG_2770.png" alt="Discord Icon" />
-        <div class="status-circle" id="status-circle"></div>
+        <div class="dicord-status-circle" id="dicord-status-circle"></div>
     </div>
            <!-- Hinzugefügter FiveM-Status -->
     <div class="fivem-status-container">
         <img class="fivem-icon" src="https://media.discordapp.net/attachments/901747534609936387/1154732451088842782/IMG_2774.png" alt="FiveM Icon" />
-        <div class="status-circle" id="fivem-status-circle"></div>
+        <div class="fivem-status-circle" id="fivem-status-circle"></div>
     </div>
 
     <div class="container">
@@ -153,7 +163,7 @@
         fetch('https://srhpyqt94yxb.statuspage.io/api/v2/status.json')
             .then(response => response.json())
             .then(data => {
-                const statusCircle = document.getElementById('status-circle');
+                const statusCircle = document.getElementById('dicord-status-circle');
 
                 if (data.status.indicator === 'none') {
                     statusCircle.style.backgroundColor = '#6aff6a';
@@ -166,9 +176,9 @@
                 // Füge den Farbpunkt neben dem Discord-Icon hinzu
                 const discordIcon = document.querySelector('.discord-icon');
                 const statusDot = document.createElement('div');
-                statusDot.className = 'status-dot';
-                statusDot.style.backgroundColor = statusCircle.style.backgroundColor;
-                discordIcon.parentNode.insertBefore(statusDot, discordIcon.nextSibling);
+                statusDot.className = 'dicord-status-dot';
+                statusDot.style.backgroundColor = dicord-statusCircle.style.backgroundColor;
+                discordIcon.parentNode.insertBefore(dicord-statusDot, discordIcon.nextSibling);
             })
             .catch(error => {
                 console.error('Fehler beim Abrufen des Discord-Status:', error);
