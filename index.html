@@ -64,19 +64,19 @@
           right: 20px;
           width: 100px;
           height: auto;
-          display: flex;
-          align-items: flex-end;
         }
 
         #logo-link {
           text-decoration: none;
-          display: flex;
         }
 
         /* Neuer CSS-Code für das Discord-Icon und den Statuspunkt */
         .discord-status-container {
-            position: relative;
-            display: inline-block;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
         }
 
         .discord-icon {
@@ -88,20 +88,32 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background-color: green; /* Beispiel-Farbe */
-            position: absolute;
-            bottom: 0;
-            right: 0;
+            margin-left: 5px;
+        }
+
+        .status-green {
+            background-color: green;
+        }
+
+        .status-red {
+            background-color: red;
+        }
+
+        .status-orange {
+            background-color: orange;
         }
     </style>
 </head>
 <body>
     <a id="logo-link" href="index.html">
-        <div class="discord-status-container">
-            <img id="logo" src="https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png" alt="Logo" />
-            <div class="status-dot" id="status-dot"></div>
-        </div>
+        <img id="logo" src="https://media.discordapp.net/attachments/1151770312451567678/1151770687044849694/Logo4.png" alt="Logo" />
     </a>
+
+    <!-- Discord Icon und Statuspunkt -->
+    <div class="discord-status-container">
+        <img class="discord-icon" src="https://media.discordapp.net/attachments/901747534609936387/1154707546439954472/discord-logo-discord-icon-transparent-free-png.png?width=558&height=558" alt="Discord Icon" />
+        <div class="status-circle" id="status-circle"></div>
+    </div>
 
     <div class="container">
         <button onclick="window.location.href='announcement.html'">Ankündigungen</button>
@@ -112,19 +124,26 @@
     </div>
 
     <script>
-        // JavaScript, um den Discord-Status abzurufen und die Statusfarbe zu ändern
+        // JavaScript, um den Discord-Status abzurufen und den Statuspunkt hinzuzufügen
         fetch('https://srhpyqt94yxb.statuspage.io/api/v2/status.json')
             .then(response => response.json())
             .then(data => {
-                const statusDot = document.getElementById('status-dot');
+                const statusCircle = document.getElementById('status-circle');
 
                 if (data.status.indicator === 'none') {
-                    statusDot.style.backgroundColor = 'green';
+                    statusCircle.style.backgroundColor = 'green';
                 } else if (data.status.indicator === 'minor') {
-                    statusDot.style.backgroundColor = 'orange';
+                    statusCircle.style.backgroundColor = 'orange';
                 } else if (data.status.indicator === 'major') {
-                    statusDot.style.backgroundColor = 'red';
+                    statusCircle.style.backgroundColor = 'red';
                 }
+
+                // Füge den Farbpunkt neben dem Discord-Icon hinzu
+                const discordIcon = document.querySelector('.discord-icon');
+                const statusDot = document.createElement('div');
+                statusDot.className = 'status-dot';
+                statusDot.style.backgroundColor = statusCircle.style.backgroundColor;
+                discordIcon.parentNode.insertBefore(statusDot, discordIcon.nextSibling);
             })
             .catch(error => {
                 console.error('Fehler beim Abrufen des Discord-Status:', error);
